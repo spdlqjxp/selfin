@@ -1,0 +1,158 @@
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+}
+
+.logo {
+  width: 50vw;
+  height: 100vh;
+  object-fit: contain;
+}
+
+.login_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50vw;
+  height: 100vh;
+
+  background-color: #E3EDF9;
+}
+
+.login_body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  flex-direction: column;
+  background-color: white;
+
+  width: 70%;
+  height: 90%;
+
+  gap: 2%;
+  border-radius: 10px;
+
+  box-shadow: -1px -1px 5px gray, 1px 1px 5px gray;
+}
+
+.hello {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.login_form {
+  display: flex;
+  flex-direction: column;
+
+  width: 25vw;
+  height: 40%;
+
+  gap: 3%;
+}
+
+.login_form button {
+  width: 100%;
+}
+
+.login_form div {
+  color: grey;
+  font-size: 16px;
+  margin-top: 8%;
+}
+
+.login_form_input {
+  border: 1px solid grey;
+  align-self: center;
+  padding: 1%;
+  font-size: 16px;
+
+  width: 100%;
+  height: 4vh;
+  border-radius: 6px;
+}
+
+.login_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: #3563E9;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
+}
+
+
+.input {
+  width: 25vw;
+  height: 4vh;
+  border-radius: 6px;
+  border: 1px solid;
+}
+
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 25vw;
+  height: 5vh;
+  border-radius: 6px;
+  border: 1px solid;
+
+  margin-top: 1%;
+}
+
+.line-container {
+  position: relative;
+  width: 25vw;
+  text-align: center; /* 텍스트를 중앙 정렬 */
+  margin: 20px 0; /* 위아래 여백 */
+}
+
+.line-container::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  border-top: 1px solid black; /* 줄 스타일 */
+  transform: translateY(-50%);
+}
+
+.line-text {
+  display: inline-block;
+  background: white; /* 배경색을 흰색으로 설정하여 줄 위에 텍스트가 보이도록 함 */
+  padding: 0 10px; /* 텍스트 주위에 여백 추가 */
+  position: relative;
+  z-index: 1; /* 텍스트를 줄 위로 올림 */
+}
+
+.google_login {
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.naver_login {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #03C75A;
+  border-color: #03C75A;
+  color: white;
+  position: relative;
+}
+
+.login_logo {
+  position: absolute;
+  width: 10%;
+  left: 1%;
+  object-fit: contain;
+  padding: 1%;
+}
