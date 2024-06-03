@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 
 import '../css/Login.css';
 import server_url from "../api/Configure";
@@ -7,8 +7,11 @@ import axios from "axios";
 import logo from '../images/img.png'
 import naver from '../images/Naver.png'
 import google from "../images/Login_Page/Google Logo.png"
+import {useForm} from "react-hook-form";
 
 const Login = () => {
+  const {register, handleSubmit} = useForm();
+
   const naverLogin = async () => {
     try {
       const response = await axios.get(server_url + "/oauth/getNaverLoginURL");
@@ -18,40 +21,41 @@ const Login = () => {
     }
   }
 
-  const [id, setID] = useState("");
-  const [password, setPassword] = useState("");
-
-  const loginSubmit = () => {
-    const response = axios.post(server_url + "/login",
-        {"username": id, "password": password})
-    localStorage.setItem("token",
-        response.headers["Authorization"].split("")[1]);
+  const loginSubmit = (data) => {
+    try {
+      const response = axios.post(server_url + "/api/login"
+          + "",
+          data,
+          {headers: {"Content-Type": "application/json"}});
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    }
+    // localStorage.setItem("token",
+    //     response.headers["Authorization"].split("")[1]);
   }
   return (
       <div className={"container"}>
         <div>
-          <img className={"logo"} src={logo} alt={"Main loog"}/>
+          <img className={"logo"} src={logo} alt={"Main logo"}/>
         </div>
         <div className={"login_container"}>
           <div className={"login_body"}>
             <div className={"hello"}>안녕하세요👋</div>
-            <form className={"login_form"} action={"/login"} method={"post"}>
+            <form className={"login_form"} onSubmit={handleSubmit(
+                (data) => loginSubmit(data))}>
               <div>ID</div>
               <input placeholder={"Enter Your ID"}
                      className={"login_form_input"}
-                     name={"username"}
-                     value={id}
-                     onChange={(e) => setID(e.target.value)}
+                     {...register("username")}
               />
               <div>Password</div>
               <input placeholder={"Enter Your Password"}
                      className={"login_form_input"}
-                     value={password}
-                     name={"password"}
-                     onChange={(e) => setPassword(e.target.value)}
                      type={"password"}
+                     {...register("password")}
               />
-              <button className={"login_button box"}>로그인
+              <button type={"submit"} className={"login_button box"}>로그인
               </button>
             </form>
             <div className="line-container">
