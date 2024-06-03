@@ -2,24 +2,27 @@ package org.selfin.service;//package org.web.service;
 
 import jakarta.transaction.Transactional;
 import java.time.LocalDate;
+import lombok.RequiredArgsConstructor;
+import org.selfin.config.JWTUtil;
+import org.selfin.dto.LoginDTO;
 import org.selfin.dto.SignUpDTO;
+import org.selfin.dto.TokenDTO;
 import org.selfin.dto.UpdateUserDTO;
 import org.selfin.entity.UserEntity;
 import org.selfin.repository.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
-        this.userRepository = userRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
+    private final JWTUtil jwtUtil;
+    private final CustomUserDetailsService customUserDetailsService;
 
     //회원가입
     public void signup(SignUpDTO signUpDTO) {
@@ -49,7 +52,6 @@ public class UserService {
             throw new IllegalArgumentException("비밀번호가 올바르지 않습니다.");
         }
 
-        //이런 방법도 있음
         UserEntity data = UserEntity.builder()
             .username(username)
             .name(name)
@@ -64,6 +66,20 @@ public class UserService {
 
         userRepository.save(data);
 
+    }
+
+    // 로그인
+    public TokenDTO login(@RequestBody LoginDTO loginDTO) {
+        UserEntity user = userRepository.findByUsername(loginDTO.getUsername());
+        if (user == null) {
+            throw new RuntimeException("존재하지 않는 아이디입니다.");
+        }
+
+        if (!bCryptPasswordEncoder.matches(loginDTO.getPassword(), user.getPassword())) {
+            throw new RuntimeException("비밀번호가 올바르지 않습니다.");
+        }
+
+        return new TokenDTO(jwtUtil.createJwt(user.getUsername(), user.getRole()));
     }
 
     //개인정보 수정

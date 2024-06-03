@@ -23,16 +23,16 @@ const Login = () => {
 
   const loginSubmit = (data) => {
     try {
-      const response = axios.post(server_url + "/api/login"
-          + "",
+      axios.post(server_url + "/api/login",
           data,
-          {headers: {"Content-Type": "application/json"}});
-      console.log(response);
+          {headers: {"Content-Type": "application/json"}})
+      .then(response => {
+        localStorage.setItem("token", response.data.token)
+      });
+      axios.get(server_url + "/pages/main", {headers : {"Authorization" : "Bearer " + localStorage.getItem("token")}})
     } catch (e) {
       console.log(e);
     }
-    // localStorage.setItem("token",
-    //     response.headers["Authorization"].split("")[1]);
   }
   return (
       <div className={"container"}>

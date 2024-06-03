@@ -19,7 +19,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        System.out.println("loadUserByUsername");
+        System.out.println("User name : " + username);
         UserEntity userentity = userRepository.findByUsername(username);
+        System.out.println("UserEntity : " + userentity);
 
         if (userentity != null) {
             //userDetails에 담아서 return 하면 AuthenticationManager가 검증 함
@@ -30,6 +33,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public UserEntity getUser(String username) {
+        System.out.println("getUser");
+        System.out.println("User name : " + username);
         return userRepository.findByUsername(username);
     }
 }

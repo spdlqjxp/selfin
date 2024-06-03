@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 public class JWTUtil {
 
     private SecretKey secretKey;
+    private final long expiredMs = 100 * 60 * 30L;
 
     public JWTUtil(@Value("${spring.jwt.secret}") String secret) {
 
@@ -36,8 +37,7 @@ public class JWTUtil {
             .getExpiration().before(new Date());
     }
 
-    public String createJwt(String username, String role, Long expiredMs) {
-
+    public String createJwt(String username, String role) {
         return Jwts.builder()
             .claim("username", username)
             .claim("role", role)
