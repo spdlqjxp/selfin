@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.4f7f4b85.css",
-    "main.js": "/static/js/main.f40f10e2.js",
+    "main.js": "/static/js/main.ac8956f6.js",
     "static/media/GowunDodum-Regular.ttf": "/static/media/GowunDodum-Regular.af5304a39dc307a26989.ttf",
     "static/media/Jua-Regular.ttf": "/static/media/Jua-Regular.03f46d33c377b251ab15.ttf",
     "static/media/4.png": "/static/media/4.9ae51aa13708c485e108.png",
@@ -12,10 +12,10 @@
     "static/media/img.png": "/static/media/img.d5f5bccdb0c42648a00c.png",
     "index.html": "/index.html",
     "main.4f7f4b85.css.map": "/static/css/main.4f7f4b85.css.map",
-    "main.f40f10e2.js.map": "/static/js/main.f40f10e2.js.map"
+    "main.ac8956f6.js.map": "/static/js/main.ac8956f6.js.map"
   },
   "entrypoints": [
     "static/css/main.4f7f4b85.css",
-    "static/js/main.f40f10e2.js"
+    "static/js/main.ac8956f6.js"
   ]
 }

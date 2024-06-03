@@ -24,7 +24,7 @@ const Hand = () => {
           <img src={hand}/>
           <text className={"overlay-text"}>당신의 이야기를 완성해보세요.</text>
         </div>
-        <Link to={"../edit"} className={"hand_button"}>첨삭하러 가기</Link>
+        <Link to={"../pages/edit"} className={"hand_button"}>첨삭하러 가기</Link>
       </div>
   )
 }
@@ -118,7 +118,7 @@ const Main = () => {
           <LineRight/>
         </div>
 
-        <Link to={"../edit"}>
+        <Link to={"../pages/edit"}>
           첨삭하기
         </Link>
 

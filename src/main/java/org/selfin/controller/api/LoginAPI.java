@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.selfin.dto.LoginDTO;
 import org.selfin.dto.SignUpDTO;
-import org.selfin.dto.TokenDTO;
 import org.selfin.repository.UserRepository;
 import org.selfin.service.UserService;
 import org.springframework.http.ResponseEntity;
@@ -28,7 +27,7 @@ public class LoginAPI {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDTO> login(@RequestBody LoginDTO loginDTO) {
+    public ResponseEntity<LoginDTO> login(@RequestBody LoginDTO loginDTO) {
         return ResponseEntity.ok(userService.login(loginDTO));
     }
 }
