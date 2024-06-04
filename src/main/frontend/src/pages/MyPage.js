@@ -1,33 +1,23 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 
 import {Link} from "react-router-dom";
 
 import '../css/MyPage.css';
 import profile_man from '../images/My_Page/남자.png'
 import Header from "./Header";
+import server_url from "../api/Configure";
+import axios from "axios";
 
 class UserInfo {
-  constructor(name, age, birth, email, phone) {
+  constructor(name, age, birth, email) {
     this.name = name;
     this.age = age;
     this.birth = birth;
     this.email = email;
-    this.phone = phone;
   }
 }
 
 const LeftMenu = () => {
-  const [userInfo, setUserInfo] = useState();
-
-  // useEffect(async () => {
-  //   const token = localStorage.getItem('jwtToken');
-  //   const response = await axios.get(
-  //       server_url + "/user/get-user-infor",
-  //       {headers: {'Authorization': `Bearer ${token}`}}
-  //   )
-  //   console.log(response.data)
-  // }, []);
-
   return (
       <div className='left_menu_container'>
         <h1>My Page</h1>
@@ -49,16 +39,26 @@ const LeftMenu = () => {
 }
 
 const CoverLetter = () => {
+  const [userInfo, setUserInfo] = useState(new UserInfo("", "", "", ""));
+
+  useEffect( () => {
+    axios.get(
+        server_url + "/api/getuserinfo" + `?username=${localStorage.getItem('username')}`
+    ).then(
+        response => setUserInfo(new UserInfo(response.data.name, response.data.age, response.data.birth, response.data.email)))
+  }, []);
+
+
   return (
       <div className="right_menu">
         <h2>개인정보</h2>
         <div className='blue_box'>
           <img className={"profile"} src={profile_man}/>
           <div className={"profile_text"}>
-            <div>이름 :</div>
-            <div>나이 :</div>
-            <div>생년월일 :</div>
-            <div>이메일 :</div>
+            <div>이름 : {userInfo.name}</div>
+            <div>나이 : {userInfo.age}</div>
+            <div>생년월일 : {userInfo.birth}</div>
+            <div>이메일 : {userInfo.email}</div>
           </div>
         </div>
       </div>

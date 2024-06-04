@@ -1,13 +1,16 @@
 package org.selfin.service;
 
 import java.time.LocalDate;
+import java.time.Period;
 import lombok.RequiredArgsConstructor;
 import org.selfin.dto.LoginDTO;
 import org.selfin.dto.SignUpDTO;
+import org.selfin.dto.UserInfoDTO;
 import org.selfin.entity.UserEntity;
 import org.selfin.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Service
 @RequiredArgsConstructor
@@ -67,10 +70,21 @@ public class UserService {
         }
 
         // 비밀번호가 일치하지 않을때
-        if (!loginDTO.getPassword().equals(user.getPassword())){
+        if (!loginDTO.getPassword().equals(user.getPassword())) {
             throw new RuntimeException("비밀번호가 올바르지 않습니다.");
         }
 
         return loginDTO;
+    }
+
+    // Mypage에서 유저의 정보를 불러오는 메서드
+    public UserInfoDTO getUserInfo(@RequestParam String username) {
+        UserEntity user = userRepository.findByUsername(username);
+        return UserInfoDTO.builder()
+            .name(user.getName())
+            .age(Period.between(user.getBirth(), LocalDate.now()).getYears())
+            .birth(user.getBirth())
+            .email(user.getEmail())
+            .build();
     }
 }

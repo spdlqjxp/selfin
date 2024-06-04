@@ -27,7 +27,16 @@ public class LoginAPI {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginDTO> login(@RequestBody LoginDTO loginDTO) {
-        return ResponseEntity.ok(userService.login(loginDTO));
+    public ResponseEntity<String> login(@RequestBody LoginDTO loginDTO) {
+        // login에 성공하면 front에서 username을 저장해놓고, 다른 api 요청할 때마다 requestparam에 입력해서 사용
+        // 하나의 쿠키처럼 username 사용
+        try {
+            userService.login(loginDTO);
+            return ResponseEntity.ok(
+                "/pages/main"); // redirection을 be에서 처리해야할거 같음, 현재는 Fe에서 redirection 중
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.badRequest().body("로그인 실패");
     }
 }

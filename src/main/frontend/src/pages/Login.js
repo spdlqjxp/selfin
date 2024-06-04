@@ -27,9 +27,13 @@ const Login = () => {
           data,
           {headers: {"Content-Type": "application/json"}})
       .then(response => {
-        localStorage.setItem("token", response.data.token)
-      });
-      axios.get(server_url + "/pages/main", {headers : {"Authorization" : "Bearer " + localStorage.getItem("token")}})
+            if (response.status == 200) {
+              localStorage.setItem("username", data.username)
+              window.location.href = response.data
+            }
+          }
+      );
+
     } catch (e) {
       console.log(e);
     }
