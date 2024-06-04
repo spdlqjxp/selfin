@@ -1,0 +1,15 @@
+@font-face {
+  font-family: "GowunDodum-Regular";
+  font-weight: normal;
+  src: url("./fonts/GowunDodum-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Jua-Regular";
+  font-weight: normal;
+  src: url("./fonts/Jua-Regular.ttf") format("truetype");
+}
+
+body {
+  font-family: "GowunDodum-Regular", "Jua-Regular";
+}
