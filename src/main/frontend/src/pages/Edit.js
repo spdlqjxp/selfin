@@ -2,6 +2,8 @@ import React, {useRef, useState} from "react";
 
 import '../css/Edit.css';
 import Header from "./Header";
+import axios from "axios";
+import server_url from "../api/Configure";
 
 // import AIPoweredCoverLetterEditAPI from "../api/AIPoweredCoverLetterEditAPI";
 
@@ -43,8 +45,15 @@ const Edit = () => {
   }
 
   const buttonClick = () => {
-    // const data = AIPoweredCoverLetterEditAPI(coverLetterTitle, qnaList);
-    // console.log(data);
+    const data = {"title": coverLetterTitle, "qna": qnaList}
+    axios.post(server_url + "/api/edit",
+        JSON.stringify(data),
+        {headers: {"Content-Type": "application/json"}})
+    .then(response => {
+      if (response.status == 200){
+        console.log(response.data)
+      }
+    })
   }
 
   return (
