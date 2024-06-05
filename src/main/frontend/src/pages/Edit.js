@@ -5,8 +5,6 @@ import Header from "./Header";
 import axios from "axios";
 import server_url from "../api/Configure";
 
-// import AIPoweredCoverLetterEditAPI from "../api/AIPoweredCoverLetterEditAPI";
-
 class Qna {
   constructor(question, answer) {
     this.question = question;
@@ -50,8 +48,9 @@ const Edit = () => {
         JSON.stringify(data),
         {headers: {"Content-Type": "application/json"}})
     .then(response => {
-      if (response.status == 200){
+      if (response.status === 200) {
         console.log(response.data)
+        window.location.href = "/pages/edit_fin"
       }
     })
   }

@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Main from "./pages/Main";
 import Edit from "./pages/Edit";
 import MyPage from "./pages/MyPage";
+import Edit_fin from "./pages/Edit_fin";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route path="/pages/main" element={<Main/>}/>
           <Route path="/pages/edit" element={<Edit/>}/>
           <Route path={"/pages/mypage"} element={<MyPage/>}/>
+          <Route path={"/pages/edit_fin"} element={<Edit_fin/>}/>
         </Routes>
       </BrowserRouter>
   );
