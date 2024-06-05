@@ -16,8 +16,7 @@ const Header = () => {
                 }}>Home</Link>
           <Link to={"/pages/edit"}
                 style={{
-                  color: path === "/pages/edit" ? 'blue'
-                      : "/pages/edit_fin" ? "blue" : "black"
+                  color: path === "/pages/edit" ? 'blue' : "black"
                 }}>첨삭하기</Link>
           <Link to={"/pages/passed_coverletter"} style={{
             color: path === "/pages/passed_coverletter" ? 'blue' : 'black'
