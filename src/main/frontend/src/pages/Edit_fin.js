@@ -40,6 +40,9 @@ const Edit_fin = ({rating, before_edit, after_edit}) => {
 
   const [prev_cover_letter, setPrev_cover_letter] = useState(before_edit)
   const [after_cover_letter, setAfter_cover_letter] = useState(after_edit)
+  // const [after_cover_letter, setAfter_cover_letter] = useState([
+  //   new Qna("aa", "123")
+  // ])
 
   return (
       <div className="wrapper_edit_fin">
