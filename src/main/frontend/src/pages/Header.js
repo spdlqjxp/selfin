@@ -11,9 +11,13 @@ const Header = () => {
         <img src={logo} className={"header_logo"}></img>
         <div className={"header_links"}>
           <Link to={"/pages/main"}
-                style={{color: path === "/pages/main" ? 'blue' : 'black'}}>Home</Link>
+                style={{
+                  color: path === "/pages/main" ? 'blue' : 'black'
+                }}>Home</Link>
           <Link to={"/pages/edit"}
-                style={{color: path === "/pages/edit" ? 'blue' : 'black'}}>첨삭하기</Link>
+                style={{
+                  color: path === "/pages/edit" ? 'blue' : "black"
+                }}>첨삭하기</Link>
           <Link to={"/pages/passed_coverletter"} style={{
             color: path === "/pages/passed_coverletter" ? 'blue' : 'black'
           }}>합격
