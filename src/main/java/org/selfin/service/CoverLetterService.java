@@ -1,5 +1,6 @@
 package org.selfin.service;
 
+import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,37 +18,6 @@ import org.springframework.stereotype.Service;
 public class CoverLetterService {
 
     private final CoverLetterRepository coverLetterRepository;
-
-//    public List<PrevAfterCoverLetterDTO> getPrevAfterCoverLetters(String username) {
-//        List<CoverLetterEntity> coverLetters = coverLetterRepository.findAllByUsername(username);
-//
-//        List<CoverLetterEntity> prevs = new LinkedList<>();
-//        List<CoverLetterEntity> afters = new LinkedList<>();
-//
-//        for (CoverLetterEntity coverLetterEntity : coverLetters) {
-//            if (coverLetterEntity.getState() == -2) {
-//                prevs.add(coverLetterEntity);
-//            } else if (coverLetterEntity.getState() != -1) {
-//                afters.add(coverLetterEntity);
-//            }
-//        }
-//        List<PrevAfterCoverLetterDTO> results = new LinkedList<>();
-//
-//        for (CoverLetterEntity prev : prevs) {
-//            CoverLetterEntity after = null;
-//            for (CoverLetterEntity after2 : afters) {
-//                if (prev.getId().equals(after2.getState())) {
-//                    after = after2;
-//                    break;
-//                }
-//            }
-//
-//            results.add(new PrevAfterCoverLetterDTO(
-//                prev.getQna().stream().map(QnaEntity::to).toList(),
-//                after.getQna().stream().map(QnaEntity::to).toList()));
-//        }
-//        return results;
-//    }
 
     public void postCoverLetter(String username, Long state, CoverLetterDTO coverLetter) {
         List<QnaEntity> qnas = new LinkedList<>();
@@ -83,6 +53,7 @@ public class CoverLetterService {
             CoverLetterEntity after = coverLetterRepository.findByState(e.getId());
 
             dtos.add(CoverLetterResponseDTO.builder()
+                .id(e.getId())
                 .title(e.getTitle())
                 .editDate(e.getEditDate())
                 .prev(e.getQna().stream().map(QnaEntity::to).toList())
@@ -90,5 +61,31 @@ public class CoverLetterService {
                 .build());
         }
         return dtos;
+    }
+
+    public List<CoverLetterResponseDTO> getMypageMyCoverLetters(String username) {
+        List<CoverLetterEntity> coverLetterEntities = coverLetterRepository.findAllByUsername(
+            username).stream().filter(
+            e -> e.getState() == -1
+        ).toList();
+        List<CoverLetterResponseDTO> dtos = new LinkedList<>();
+
+        for (CoverLetterEntity e : coverLetterEntities) {
+            dtos.add(
+                CoverLetterResponseDTO.builder()
+                    .id(e.getId())
+                    .title(e.getTitle())
+                    .editDate(e.getEditDate())
+                    .prev(e.getQna().stream().map(QnaEntity::to).toList())
+                    .after(null)
+                    .build()
+            );
+        }
+        return dtos;
+    }
+
+    @Transactional
+    public void deleteCoverLetter(Long id) {
+        coverLetterRepository.deleteCoverLetterEntityById(id);
     }
 }

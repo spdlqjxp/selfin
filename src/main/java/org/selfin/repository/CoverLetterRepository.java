@@ -9,5 +9,8 @@ import org.springframework.stereotype.Repository;
 public interface CoverLetterRepository extends JpaRepository<CoverLetterEntity, Long> {
 
     List<CoverLetterEntity> findAllByUsername(String username);
+
     CoverLetterEntity findByState(Long state);
+
+    void deleteCoverLetterEntityById(Long id);
 }

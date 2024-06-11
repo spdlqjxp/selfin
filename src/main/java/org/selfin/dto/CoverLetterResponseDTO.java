@@ -11,8 +11,9 @@ import lombok.Getter;
 @Builder
 public class CoverLetterResponseDTO {
 
-    String title;
-    LocalDate editDate;
-    List<QnaDTO> prev;
-    List<QnaDTO> after;
+    private Long id;
+    private String title;
+    private LocalDate editDate;
+    private List<QnaDTO> prev;
+    private List<QnaDTO> after;
 }
