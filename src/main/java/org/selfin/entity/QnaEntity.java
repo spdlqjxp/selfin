@@ -1,5 +1,6 @@
 package org.selfin.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,7 +22,10 @@ public class QnaEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(length = 1024)
     private String question;
+
+    @Column(length = 1024)
     private String answer;
 
     public QnaDTO to() {

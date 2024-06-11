@@ -6,6 +6,7 @@ import org.selfin.dto.CoverLetterDTO;
 import org.selfin.dto.CoverLetterResponseDTO;
 import org.selfin.service.CoverLetterService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,12 +21,6 @@ public class CoverLetterAPI {
 
     private final CoverLetterService coverLetterService;
 
-//    @GetMapping("/getcoverletters")
-//    public ResponseEntity<List<PrevAfterCoverLetterDTO>> getPrevAfterCoverLetter(
-//        @RequestParam String username) {
-//        return ResponseEntity.ok(coverLetterService.getPrevAfterCoverLetters(username));
-//    }
-
     @PostMapping("/postcoverletter")
     public ResponseEntity<CoverLetterDTO> postCoverLetter(
         @RequestParam String username,
@@ -39,5 +34,18 @@ public class CoverLetterAPI {
     public ResponseEntity<List<CoverLetterResponseDTO>> getCoverLetters(
         @RequestParam String username) {
         return ResponseEntity.ok(coverLetterService.getMypageCoverLetters(username));
+    }
+
+    @GetMapping("/getmypagemycoverletters")
+    public ResponseEntity<List<CoverLetterResponseDTO>> getMyCoverLetters(
+        @RequestParam String username) {
+        return ResponseEntity.ok(coverLetterService.getMypageMyCoverLetters(username));
+    }
+
+    @DeleteMapping("/deletecoverletter")
+    public ResponseEntity<Long> deleteCoverLetter(
+        @RequestParam Long id) {
+        coverLetterService.deleteCoverLetter(id);
+        return ResponseEntity.ok(id);
     }
 }

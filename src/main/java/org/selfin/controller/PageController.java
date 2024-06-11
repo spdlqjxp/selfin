@@ -12,7 +12,7 @@ public class PageController {
 
     @RequestMapping(value = "/{path:[^\\.]*}", method = GET)
     public String forward(HttpServletRequest request) {
-        System.out.println(request.getRequestURI());
+//        System.out.println(request.getRequestURI());
         return "forward:/index.html";
     }
 }
