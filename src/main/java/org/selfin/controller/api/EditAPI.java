@@ -1,10 +1,8 @@
 package org.selfin.controller.api;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.selfin.dto.CoverLetterDTO;
 import org.selfin.dto.EditedQnaDTO;
-import org.selfin.dto.QnaDTO;
-import org.selfin.dto.QnaReceiveDTO;
 import org.selfin.service.EditService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +19,7 @@ public class EditAPI {
 
     @PostMapping(value = "/edit")
     public ResponseEntity<EditedQnaDTO> edit(
-        @RequestBody QnaReceiveDTO qnaReceiveDTO
+        @RequestBody CoverLetterDTO qnaReceiveDTO
     ) {
         return ResponseEntity.ok(editService.edit(qnaReceiveDTO));
     }

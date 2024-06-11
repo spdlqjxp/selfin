@@ -1,70 +1,94 @@
-//package org.selfin.service;
+package org.selfin.service;
+
+import java.time.LocalDate;
+import java.util.LinkedList;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.selfin.dto.CoverLetterDTO;
+import org.selfin.dto.CoverLetterResponseDTO;
+import org.selfin.dto.QnaDTO;
+import org.selfin.entity.CoverLetterEntity;
+import org.selfin.entity.QnaEntity;
+import org.selfin.repository.CoverLetterRepository;
+import org.springframework.stereotype.Service;
+
+@Service
+@RequiredArgsConstructor
+public class CoverLetterService {
+
+    private final CoverLetterRepository coverLetterRepository;
+
+//    public List<PrevAfterCoverLetterDTO> getPrevAfterCoverLetters(String username) {
+//        List<CoverLetterEntity> coverLetters = coverLetterRepository.findAllByUsername(username);
 //
-//import java.time.LocalDateTime;
-//import java.util.ArrayList;
-//import java.util.List;
-//import lombok.RequiredArgsConstructor;
-//import lombok.extern.slf4j.Slf4j;
-//import org.selfin.dto.CoverLetterDTO;
-//import org.selfin.entity.CoverLetterEntity;
-//import org.selfin.repository.CoverLetterRepository;
-//import org.selfin.repository.MyCoverLetter;
-//import org.springframework.stereotype.Service;
+//        List<CoverLetterEntity> prevs = new LinkedList<>();
+//        List<CoverLetterEntity> afters = new LinkedList<>();
 //
-//@Service
-//@RequiredArgsConstructor
-//@Slf4j
-//public class CoverLetterService {
-//
-//    private CoverLetterRepository coverLetterRepository;
-//
-//    public List<MyCoverLetter> index(String username) {
-//        List<MyCoverLetter> coverLetters = coverLetterRepository.findByUsername(username);
-//        List<MyCoverLetter> dtos = new ArrayList<>();
-//        for (MyCoverLetter entity : coverLetters) {
-//            MyCoverLetter dto = new MyCoverLetter() {
-//                @Override
-//                public String getTitle() {
-//                    return entity.getTitle();
-//                }
-//
-//                @Override
-//                public LocalDateTime getModifiedDate() {
-//                    return entity.getModifiedDate();
-//                }
-//            };
-//            dtos.add(dto);
+//        for (CoverLetterEntity coverLetterEntity : coverLetters) {
+//            if (coverLetterEntity.getState() == -2) {
+//                prevs.add(coverLetterEntity);
+//            } else if (coverLetterEntity.getState() != -1) {
+//                afters.add(coverLetterEntity);
+//            }
 //        }
-//        return dtos;
-//    }
+//        List<PrevAfterCoverLetterDTO> results = new LinkedList<>();
 //
-//    public CoverLetterDTO create(CoverLetterDTO dto) {
-//        return new CoverLetterDTO(coverLetterRepository.save(dto.toEntity()));
-//    }
+//        for (CoverLetterEntity prev : prevs) {
+//            CoverLetterEntity after = null;
+//            for (CoverLetterEntity after2 : afters) {
+//                if (prev.getId().equals(after2.getState())) {
+//                    after = after2;
+//                    break;
+//                }
+//            }
 //
-//    public CoverLetterDTO update(String username, CoverLetterDTO dto, Long id) {
-//        CoverLetterEntity coverLetter = dto.toEntity();
-//        CoverLetterEntity target = coverLetterRepository.findCoverLetterEntityByUsernameAndId(
-//            username, id);
-////        if (target == null || !username.equals(target.getUsername())) {
-////            return null; 여기서 자꾸 에러가 뜸 왜이러지
-////        }
-//        target.patch(coverLetter);
-//        CoverLetterEntity updated = coverLetterRepository.save(target);
-//        CoverLetterDTO updateCoverLetter = new CoverLetterDTO(updated);
-//        return updateCoverLetter;
-//    }
-//
-//
-//    public CoverLetterEntity delete(String username, Long id) {
-//        CoverLetterEntity target = coverLetterRepository.findCoverLetterEntityByUsernameAndId(
-//            username, id);
-//        if (target == null) {
-//            return null;
+//            results.add(new PrevAfterCoverLetterDTO(
+//                prev.getQna().stream().map(QnaEntity::to).toList(),
+//                after.getQna().stream().map(QnaEntity::to).toList()));
 //        }
-//        coverLetterRepository.delete(target);
-//        return target;
+//        return results;
 //    }
-//
-//}
-//
+
+    public void postCoverLetter(String username, Long state, CoverLetterDTO coverLetter) {
+        List<QnaEntity> qnas = new LinkedList<>();
+        for (QnaDTO qna : coverLetter.getQna()) {
+            qnas.add(QnaEntity.builder()
+                .question(qna.getQuestion())
+                .answer(qna.getAnswer())
+                .build());
+        }
+        CoverLetterEntity coverLetterEntity = CoverLetterEntity.builder()
+            .username(username)
+            .title(coverLetter.getTitle())
+            .editDate(LocalDate.now())
+            .state(state)
+            .qna(qnas)
+            .build();
+        coverLetterRepository.save(coverLetterEntity);
+    }
+
+    public List<CoverLetterResponseDTO> getMypageCoverLetters(String username) {
+        List<CoverLetterEntity> coverLetterEntities = coverLetterRepository.findAllByUsername(
+            username).stream().filter(e -> e.getState() != -1).toList();
+
+        List<CoverLetterEntity> prevs = new LinkedList<>();
+        for (CoverLetterEntity e : coverLetterEntities) {
+            if (e.getState() == -2) {
+                prevs.add(e);
+            }
+        }
+
+        List<CoverLetterResponseDTO> dtos = new LinkedList<>();
+        for (CoverLetterEntity e : prevs) {
+            CoverLetterEntity after = coverLetterRepository.findByState(e.getId());
+
+            dtos.add(CoverLetterResponseDTO.builder()
+                .title(e.getTitle())
+                .editDate(e.getEditDate())
+                .prev(e.getQna().stream().map(QnaEntity::to).toList())
+                .after(after.getQna().stream().map(QnaEntity::to).toList())
+                .build());
+        }
+        return dtos;
+    }
+}
